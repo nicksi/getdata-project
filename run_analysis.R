@@ -1,3 +1,11 @@
+# library load squence is important for plyr/dplyr, so let's try to unload them first
+loaded_packages <- search()
+if ( "package:plyr" %in% loaded_packages| "package:dplyr" %in% loaded_packages ) {
+    detach(package:dplyr, unload = TRUE)
+    detach(package:dplyr, unload = TRUE)
+}
+#Load dplyr after plyr
+library("plyr")
 library("dplyr")
 library("tidyr")
 
@@ -90,4 +98,5 @@ aggregated_data <-
         parameter = as.factor(sub("^([A-Z].+?)([A-Z].+?)([A-Z].*|$)","\\3",parameter))
     )
 
+# save result to file
 write.table(aggregated_data, "aggregate.txt", row.name=FALSE)
